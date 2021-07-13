@@ -1,0 +1,4 @@
+*.pyc
+
+# Secrets file
+/secrets.py
