@@ -1,4 +1,2 @@
 *.pyc
-
-# Secrets file
-/secrets.py
+outputs/
