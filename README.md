@@ -1,27 +1,30 @@
 # Estimating the Bot Population on Twitter via Random Walk
 
-### Installation
+## Installation
+Clone this repository and enter that directory in your terminal.
+
 At first, update your secret keys in the *secrets.py*.
 - Create a [Twitter app](https://apps.twitter.com/) and get Twitter API keys from the "Keys and tokens" tab of your app properties.
 - Create a [RapidAPI](http://rapidapi.com/) account, subscribe to [Botometer Pro](https://rapidapi.com/OSoMe/api/botometer-pro) and get the RapidAPI key.
+  - [Pro (Free) Plan](https://rapidapi.com/OSoMe/api/botometer-pro/pricing) is sufficient for fundamental use.
   - The easiest way to obtain the key is to visit [API endpoint page](https://rapidapi.com/OSoMe/api/botometer-pro/endpoints) and find "X-RapidAPI-Key" in the "Header Parameters".
   - See [Botometer Python API](https://github.com/IUNetSci/botometer-python) for details.
 
-You will need some python packages installed. You can just run:
+Also, you will need some Python packages installed. You can just run:
 ```
 $ pip install -r requirements.txt
 ```
 
-### Usage
+## Usage
 ```
 $ bot_population_estimator.py {rw,bot} ...
 ```
 
 There are two positional arguments:
-- `rw`: perform random walk
-- `bot`: calculate bot score and population with reading samplinglist/botscore file
+1. [rw](#1-rw): perform random walk
+2. [bot](#2-bot): calculate bot score and population with reading samplinglist/botscore file
 
-#### rw
+### 1. rw
 You can perform random walk from any public user.
 ```
 $ python bot_population_estimator.py rw -i user_id
@@ -49,15 +52,31 @@ Optional:
                         number of the first samples to be discarded
 ```
 
-For example, if you want to start random walk from a *user 12* and want *100 samples*, run:
+#### (a) Only sampling
+For example, if you want to start a random walk from a *user 12* and want *100 samples*, run:
 ```
 $ python bot_population_estimator.py rw -i 12 -r 100
 ```
-Results will be saved in outputs/YYYY-mm-dd-HH-MM-SS-initial12-samplesize100-**samplinglist**.txt and outputs/YYYY-mm-dd-HH-MM-SS-initial12-samplesize100-**log**.txt.
+-*samplinglist*.txt will be created in outputs/. (See [Output Format](#output-format) for details.)
 
-You can also get bot scores for each sampled user at the same time with an optional flag `--calc-bot-ppl`. -**botscore**.txt and -**est**.txt will be saved in outputs/ as well. You can change threshold of the bot score for binary classification with flag `-t`, and discard a specified number of the first samples with flag `-c`.
+You can also specify sampling time instead of sample size.
+For example, when you want to collect samples for 3 days, run:
+```
+$ python bot_population_estimator.py rw -i 12 -days 3
+```
+(You may get around 1,400-1,500 samples in 24 hours.)
 
-#### bot
+> 💡 You can obtain user id from the screen name (user name following @) by running `$ python get_id_screen_name.py screen_name`.
+
+#### (b) Sampling and estimation 👈 Recommended
+You can also get bot scores for each sampled user at the same time with an optional flag `--calc-bot-ppl`.
+```
+$ python bot_population_estimator.py rw -i 12 -r 100 --calc-bot-ppl
+```
+-*botscore*.txt and -*est*.txt will be saved in outputs/ as well. (See [Output Format](#output-format) for details.)
+You can change threshold of the bot score for binary classification with flag `-t`, and discard a specified number of the first samples with flag `-c`.
+
+### 2. bot
 You can obtain estimates with reading an existing file.
 ```
 $ python bot_population_estimator.py bot -f file_path [-t threshold_score] [-c num_cut_samples]
@@ -74,16 +93,20 @@ Optional:
                         number of the first samples to be discarded
 ```
 
-##### From sampling list
-If you specify the -*samplinglist*.txt file, bot score will be calculated for each node (saved as -*botscore*.txt) and estimates of the bot population will be shown (saved as -*est*.txt).
+#### (a) From sampling list
+If you specify the -*samplinglist*.txt file, bot score will be calculated for each node (saved as -*botscore*.txt) and estimates of the bot population will be shown (saved as -*est*.txt). (See [Output Format](#output-format) for details.)
 ```
 $ python bot_population_estimator.py bot -f outputs/YYYY-mm-dd-HH-MM-SS-initialXXXX-samplesizeZZZZ-samplinglist.txt
 Read outputs/YYYY-mm-dd-HH-MM-SS-initialXXXX-samplesizeZZZZ-samplinglist
 Bot population: 0.0
 ```
 
-##### From bot score
-If you specify the -*botscore*.txt file, estimates of the bot population will be shown (saved as -*est*.txt) with using the already calculated scores. You can also change threshold of the bot score for binary classification with flag `-t`, and discard a specified number of the first samples with flag `-c`.
+> 💡 Please note that if you specify a file containing more than 2,000 samples, you may exceed Botometer's free usage limit.
+In that case, you can avoid being charged by splitting the samples into 2,000 samples each and saving them in a file named with the suffix -samplinglist and specifying each filepath.
+
+#### (b) From bot score
+If you specify the -*botscore*.txt file, estimates of the bot population will be shown (saved as -*est*.txt, see [Output Format](#output-format) for details) with using the already calculated scores.
+You can also change threshold of the bot score for binary classification with flag `-t`, and discard a specified number of the first samples with flag `-c`.
 
 For example, if you want to get estimates with threshold *0.9* and discarding *first 1000 samples*, run:
 ```
@@ -92,7 +115,21 @@ Read outputs/YYYY-mm-dd-HH-MM-SS-initialXXXX-samplesizeZZZZ-botscore
 Bot population: 0.0
 ```
 
-<!-- ### Reference
+### Output Format
+Results will be saved in *outputs/* directory as text files.
+- **Samples**: $r$-th row in -*samplinglist*.txt contains:
+  ```
+  <r-th sample's user id> <number of r-th sample's followers> <number of r-th sample's friends> <size of union set of r-th sample's followers and friends>
+  ```
+- **Bot score**: $r$-th row in -*botscore*.txt contains:
+  ```
+  <r-th sample's user id> <r-th sample's bot score>
+  ```
+  Bot score here is a conditional probability that accounts with a score equal to or greater than this are automated.
+- **Estimates**: $r$-th row in -*est*.txt indicates estimated bot population using 1st to $r$-th samples. If you have specified that the first $n$ samples are to be discarded (by the `-c` flag), then the results from the first one excluding them will be displayed.
+  <!-- $$\hat{p}_{\text{bot}} = {\frac{\sum_{i = 1}^{r} 1_{\{l_{\text{bot}}(x_i) = \text{bot}\}} / |\Gamma_k(x_i)|}{\sum_{i = 1}^{r} 1 / |\Gamma_k(x_i)|}}$$ -->
+
+<!-- ## Reference
 ```
 @inproceedings{fukuda2021,
     title = {Estimating the Bot Population on {Twitter} via Random Walk},
