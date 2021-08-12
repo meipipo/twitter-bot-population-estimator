@@ -62,7 +62,7 @@ $ python bot_population_estimator.py rw -i 12 -r 100
 You can also specify sampling time instead of sample size.
 For example, when you want to collect samples for 3 days, run:
 ```
-$ python bot_population_estimator.py rw -i 12 -days 3
+$ python bot_population_estimator.py rw -i 12 --days 3
 ```
 (You may get around 1,400-1,500 samples in 24 hours.)
 
