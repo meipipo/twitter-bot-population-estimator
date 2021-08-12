@@ -66,7 +66,7 @@ $ python bot_population_estimator.py rw -i 12 --days 3
 ```
 (You may get around 1,400-1,500 samples in 24 hours.)
 
-> 💡 You can obtain user id from the screen name (user name following @) by running `$ python get_id_screen_name.py screen_name`.
+> 💡 You can obtain user id from the screen name (user name following @) by running `$ python get_id_screen_name.py <screen_name>` in this directory.
 
 #### (b) Sampling and estimation 👈 Recommended
 You can also get bot scores for each sampled user at the same time with an optional flag `--calc-bot-ppl`.
