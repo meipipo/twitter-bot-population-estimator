@@ -69,7 +69,7 @@ $ python bot_population_estimator.py rw -i 12 --days 3
 > 💡 You can obtain user id from the screen name (user name following @) by running `$ python get_id_screen_name.py <screen_name>` in this directory.
 
 #### (b) Sampling and estimation 👈 Recommended
-You can also get bot scores for each sampled user at the same time with an optional flag `--calc-bot-ppl`.
+You can also use the optional flag `--calc-bot-ppl` to get the bot score for each sampled user at the same time.
 ```
 $ python bot_population_estimator.py rw -i 12 -r 100 --calc-bot-ppl
 ```
@@ -117,17 +117,17 @@ Bot population: 0.0
 
 ### Output Format
 Results will be saved in *outputs/* directory as text files.
-- **Samples**: $r$-th row in -*samplinglist*.txt contains:
+- **Samples**: r-th row in -*samplinglist*.txt contains:
   ```
   <r-th sample's user id> <number of r-th sample's followers> <number of r-th sample's friends> <size of union set of r-th sample's followers and friends>
   ```
-- **Bot score**: $r$-th row in -*botscore*.txt contains:
+- **Bot score**: r-th row in -*botscore*.txt contains:
   ```
   <r-th sample's user id> <r-th sample's bot score>
   ```
   Bot score here is a conditional probability that accounts with a score equal to or greater than this are automated.
-- **Estimates**: $r$-th row in -*est*.txt indicates estimated bot population using 1st to $r$-th samples. If you have specified that the first $n$ samples are to be discarded (by the `-c` flag), then the results from the first one excluding them will be displayed.
-  <!-- $$\hat{p}_{\text{bot}} = {\frac{\sum_{i = 1}^{r} 1_{\{l_{\text{bot}}(x_i) = \text{bot}\}} / |\Gamma_k(x_i)|}{\sum_{i = 1}^{r} 1 / |\Gamma_k(x_i)|}}$$ -->
+- **Estimates**: r-th row in -*est*.txt indicates estimated bot population using 1st to r-th samples.
+  If you have specified that the first n samples are to be discarded (by the `-c` flag), then the results from the first one excluding them will be displayed.
 
 <!-- ## Reference
 ```
