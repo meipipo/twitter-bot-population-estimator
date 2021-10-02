@@ -136,6 +136,9 @@ def walk(api, v, samplinglist, friends_dict, followers_dict, neighbors_dict, vis
             v_neighbors_set = set(neighbors_dict[v]) | set([prev_v])
             neighbors_dict[v] = list(v_neighbors_set)
     else:
+        write_to_file(
+            log_file_path, "Try to get followers and friends of %s" % str(int(v)))
+
         # Get followers
         try:
             followers = get_followers_ids(api, v, log_file_path)
