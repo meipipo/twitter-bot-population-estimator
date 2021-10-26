@@ -149,8 +149,7 @@ def walk(api, v, samplinglist, friends_dict, followers_dict, neighbors_dict, vis
                 v = choose_destination(
                     api, prev_v, neighbors_dict[prev_v], visit, log_file_path)
                 if v:
-                    walk(api, v, samplinglist, friends_dict, followers_dict, neighbors_dict, visit,
-                         log_file_path, samplinglist_file_path)
+                    return walk(api, v, samplinglist, friends_dict, followers_dict, neighbors_dict, visit, log_file_path, samplinglist_file_path)
                 else:
                     return None
             else:
@@ -166,8 +165,7 @@ def walk(api, v, samplinglist, friends_dict, followers_dict, neighbors_dict, vis
                 v = choose_destination(
                     api, prev_v, neighbors_dict[prev_v], visit, log_file_path)
                 if v:
-                    walk(api, v, samplinglist, friends_dict, followers_dict, neighbors_dict, visit,
-                         log_file_path, samplinglist_file_path)
+                    return walk(api, v, samplinglist, friends_dict, followers_dict, neighbors_dict, visit, log_file_path, samplinglist_file_path)
                 else:
                     return None
             else:
