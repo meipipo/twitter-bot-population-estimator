@@ -19,7 +19,7 @@ We verified that the program work properly with Python 3.9.1.
 
 ## Usage
 ```
-$ bot_population_estimator.py {rw,bot} ...
+$ python bot_population_estimator.py {rw,bot} ...
 ```
 
 There are two positional arguments:
@@ -70,7 +70,7 @@ You may get around 1,400-1,500 samples in 24 hours.
 
 > 💡 You can obtain user id from the screen name (user name following @) by running `$ python get_id_screen_name.py <screen_name>` in this directory.
 
-#### (b) Sampling and estimation 👈 Recommended
+#### (b) Sampling and estimation
 You can also use the optional flag `--calc-bot-ppl` to get the bot score for each sampled user at the same time.
 ```
 $ python bot_population_estimator.py rw -i 12 -r 100 --calc-bot-ppl
@@ -100,6 +100,9 @@ Optional:
   -c num_cut_samples, --cut num_cut_samples
                         number of the first samples to be discarded (default is 0)
 ```
+
+> 💡 Please note that if you specify a file containing more than 500 samples, you may exceed Botometer's free usage limit.
+If the limit on the number of account inquiries is exceeded, our program will record -1 as the bot score.
 
 #### (a) From sampling list
 If you specify the -*samplinglist*.txt file, bot score will be calculated for each node (saved as -*botscore*.txt) and estimates of the bot population will be shown (saved as -*est*.txt). (See [Output Format](#output-format) for details.)
