@@ -457,7 +457,7 @@ def main():
     parser_rw.add_argument('-t', '--threshold', metavar="threshold_score", type=float,
                            help="threshold to classify whether a user is bot (default is 0.95)", default=0.95)
     parser_rw.add_argument('-c', '--cut', metavar="num_cut_samples", type=int,
-                           help="number of the first samples to be discarded", default=0)
+                           help="number of the first samples to be discarded (default is 0)", default=0)
     parser_rw.set_defaults(subcommand_func=command_rw)
 
     parser_bot = subparsers.add_parser(
@@ -467,7 +467,7 @@ def main():
     parser_bot.add_argument('-t', '--threshold', metavar="threshold_score", type=float,
                             help="threshold to classify whether a user is bot (default is 0.95)", default=0.95)
     parser_bot.add_argument('-c', '--cut', metavar="num_cut_samples", type=int,
-                            help="number of the first samples to be discarded", default=0)
+                            help="number of the first samples to be discarded (default is 0)", default=0)
     parser_bot.set_defaults(subcommand_func=command_bot)
 
     args = parser.parse_args()
