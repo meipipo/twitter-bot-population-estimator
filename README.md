@@ -101,9 +101,6 @@ Optional:
                         number of the first samples to be discarded (default is 0)
 ```
 
-> 💡 Please note that if you specify a file containing more than 500 samples, you may exceed Botometer's free usage limit.
-If the limit on the number of account inquiries is exceeded, our program will record -1 as the bot score.
-
 #### (a) From sampling list
 If you specify the -*samplinglist*.txt file, bot score will be calculated for each node (saved as -*botscore*.txt) and estimates of the bot population will be shown (saved as -*est*.txt). (See [Output Format](#output-format) for details.)
 ```
@@ -112,7 +109,7 @@ Read outputs/YYYY-mm-dd-HH-MM-SS-initialXXXX-samplesizeZZZZ-samplinglist
 Bot population: 0.0
 ```
 
-> 💡 Please note that if you specify a file containing more than 500 samples, you may exceed Botometer's free usage limit.
+> 💡 Please note that if you specify a file containing more than 500 samples, you may exceed Botometer's free usage limit to calculate the bot score.
 If the limit on the number of account inquiries is exceeded, our program will record -1 as the bot score.
 
 #### (b) From bot score
