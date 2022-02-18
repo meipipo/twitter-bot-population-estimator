@@ -139,6 +139,7 @@ Results will be saved in *outputs/* directory as text files.
 
 ## Reference
 M. Fukuda, K. Nakajima and K. Shudo, "Estimating the Bot Population on Twitter via Random Walk Based Sampling," in IEEE Access, vol. 10, pp. 17201-17211, 2022, doi: 10.1109/ACCESS.2022.3149887.
+[![Paper](https://img.shields.io/badge/-paper-orange)](https://doi.org/10.1109/ACCESS.2022.3149887)
 
 **BibTeX**
 ```
